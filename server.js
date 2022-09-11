@@ -39,7 +39,16 @@ app.post("/prescriptions", (request, response) => {
 })
 
 app.get('/prescriptions/:id', (request, response) => {
-    // const prescriptions = app.locals.prescriptions;
-    // response.status(200).json(prescriptions);
+    const { id } = request.params
+    // console.log(request.params)
+    // console.log("counter", app.locals.counter)
+    // console.log("prescriptions", app.locals.prescriptions)
+    
+    const requestedPrescription = app.locals.prescriptions.find( (prescription) => {
+      // console.log("find prescription.id ", prescription.id)
+      return prescription.id == id;
+    } )
+    console.log(requestedPrescription)
+    response.status(201).json({data: requestedPrescription});
   });
 
