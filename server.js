@@ -14,7 +14,7 @@ app.get('/', (request, response) => {
 });
 
 app.listen(app.get('port'), () => {
-  db.sequelize.sync() 
+  db.sequelize.authenticate({force: true}) 
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
 });
 
