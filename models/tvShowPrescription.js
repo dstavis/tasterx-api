@@ -22,4 +22,3 @@ module.exports = (sequelize, DataTypes) => {
   });
   return TvShowPrescription;
 };
-console.log(TvShowPrescription === sequelize.models.TvShowPrescription); // true
