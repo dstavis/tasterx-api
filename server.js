@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 
-app.use(cors());
+app.use(cors()); //can put url into the cors()
 app.use(express.json());
 
 app.set('port', process.env.PORT || 3002);
