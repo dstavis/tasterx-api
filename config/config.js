@@ -5,7 +5,7 @@ module.exports = {
     "database": process.env.DATABASE,
     "host": process.env.HOST,
     "operatorsAliases": false,
-    "use_env_variable": "https://tasterx.herokuapp.com/",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres"
   }
 }
