@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors')
-
-
+const db = require("./models/index")
 
 app.use(cors()); //can put url into the cors()
 app.use(express.json());
@@ -15,6 +14,7 @@ app.get('/', (request, response) => {
 });
 
 app.listen(app.get('port'), () => {
+  db.sequelize.sync() 
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
 });
 
