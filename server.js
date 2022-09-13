@@ -14,34 +14,24 @@ app.get('/', (request, response) => {
   response.send('TasteRX API');
 });
 
-app.locals.counter = 1;
-app.locals.prescriptions = [];
-
-app.post("/prescriptions", (request, response) => {
+app.post("/prescriptions", async (request, response) => {
   const { message, showID } = request.body
   if(!message || !showID) {
-    response.status(422).json( { error: "Expected { message: <String>, showID: <Number>}" } )
+    response.status(422).json( { error: "Expected { message: <String>, showID: <Number> }" } )
   }
-
-  const newPrescription = {
-    id: app.locals.counter,
-    message: message,
-    showID: showID
-  }
-  app.locals.counter ++
-
-  app.locals.prescriptions.push(newPrescription)
-  response.status(201).json({ prescription: newPrescription})
+  const newPrescription = await models.TVPrescription.create({ message: message, showID: showID })
+  response.status(201).json({ prescription: newPrescription })
 })
 
-app.get('/prescriptions/:id', (request, response) => {
+app.get('/prescriptions/:id', async (request, response) => {
     const { id } = request.params
-    
-    const requestedPrescription = app.locals.prescriptions.find( (prescription) => {
-      return prescription.id == id;
-    } )
-    console.log(requestedPrescription)
-    response.status(201).json({data: requestedPrescription});
+
+    const requestedPrescription = await models.TVPrescription.findOne({ where: { id: id } });
+    if (requestedPrescription === null) {
+      response.status(422).json( { error: "Not found" } )
+    } else {
+      response.status(201).json({data: requestedPrescription});
+    }
   });
 
 sequelize.sync().then(() => {
