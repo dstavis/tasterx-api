@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+const { sequelize, models } = require('./model/index');
 
 app.use(cors()); //can put url into the cors()
 app.use(express.json());
@@ -10,10 +12,6 @@ app.locals.title = 'TasteRX API';
 
 app.get('/', (request, response) => {
   response.send('TasteRX API');
-});
-
-app.listen(app.get('port'), () => {
-  console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
 });
 
 app.locals.counter = 1;
@@ -46,3 +44,8 @@ app.get('/prescriptions/:id', (request, response) => {
     response.status(201).json({data: requestedPrescription});
   });
 
+sequelize.sync().then(() => {
+  app.listen(app.get('port'), () => {
+    console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
+  });
+})
