@@ -1,6 +1,5 @@
 require('dotenv').config()
 
-// import models, { sequelize } from './models';
 const { sequelize, models } = require('./models/index')
 const express = require('express');
 const app = express();
@@ -22,6 +21,7 @@ app.locals.counter = 1;
 app.locals.prescriptions = [];
 
 app.post("/prescriptions", (request, response) => {
+  //.create() sequelize docs
   const { message, showID } = request.body
   if(!message || !showID) {
     response.status(422).json( { error: "Expected { message: <String>, showID: <Number>}" } )
@@ -39,6 +39,7 @@ app.post("/prescriptions", (request, response) => {
 })
 
 app.get('/prescriptions/:id', (request, response) => {
+  // .findOne() sequelize docs
   const { id } = request.params
   
   const requestedPrescription = app.locals.prescriptions.find( (prescription) => {
