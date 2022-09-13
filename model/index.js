@@ -5,9 +5,11 @@ const sequelize = new Sequelize(
   process.env.DATABASE_URL,
   {
     dialect: 'postgres',
-    ssl: {
-      required: true,
-      rejectUnauthorized: false,
+    dialectOptions: {
+      ssl: {
+        required: true,
+        rejectUnauthorized: false,
+      }
     }
   },
 );
