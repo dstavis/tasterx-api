@@ -5,12 +5,12 @@ const sequelize = new Sequelize(
   process.env.DATABASE_URL,
   {
     dialect: 'postgres',
-    ...(!process.env.NODE_ENV === 'production' && {dialectOptions: {
+    dialectOptions: {
       ssl: {
         required: true,
         rejectUnauthorized: false,
       }
-    }})
+    }
   },
 );
 
