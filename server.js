@@ -31,7 +31,7 @@ app.get('/prescriptions/:id', async (request, response) => {
     if (requestedPrescription === null) {
       response.status(422).json( { error: "Not found" } )
     } else {
-      response.status(201).json(requestedPrescription);
+      response.status(201).json({ data: requestedPrescription });
     }
   });
 
