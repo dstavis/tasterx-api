@@ -1,8 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+const { sequelize, models } = require('./model/index');
+const { response } = require('express');
 
-app.use(cors()); //can put url into the cors()
+app.use(cors());
 app.use(express.json());
 
 app.set('port', process.env.PORT || 3002);
@@ -12,37 +15,38 @@ app.get('/', (request, response) => {
   response.send('TasteRX API');
 });
 
-app.listen(app.get('port'), () => {
-  console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
+app.get('/prescriptions', async (request, response) => {
+  const allRX = await models.TVPrescription.findAll();
+  if(!allRX) {
+    response.status(422).json( { error: "No prescriptions found" } )
+  } else {
+    response.status(200).json(allRX);
+  }
 });
 
-app.locals.counter = 1;
-app.locals.prescriptions = [];
-
-app.post("/prescriptions", (request, response) => {
+app.post("/prescriptions", async (request, response) => {
   const { message, showID } = request.body
   if(!message || !showID) {
-    response.status(422).json( { error: "Expected { message: <String>, showID: <Number>}" } )
+    response.status(422).json( { error: "Expected { message: <String>, showID: <Number> }" } )
+  } else {
+    const newPrescription = await models.TVPrescription.create({ message: message, showID: showID })
+    response.status(201).json({ prescription: newPrescription })
   }
-
-  const newPrescription = {
-    id: app.locals.counter,
-    message: message,
-    showID: showID
-  }
-  app.locals.counter ++
-
-  app.locals.prescriptions.push(newPrescription)
-  response.status(201).json({ prescription: newPrescription})
 })
 
-app.get('/prescriptions/:id', (request, response) => {
+app.get('/prescriptions/:id', async (request, response) => {
     const { id } = request.params
-    
-    const requestedPrescription = app.locals.prescriptions.find( (prescription) => {
-      return prescription.id == id;
-    } )
-    console.log(requestedPrescription)
-    response.status(201).json({data: requestedPrescription});
+    const requestedPrescription = await models.TVPrescription.findOne({ where: { id: id } });
+    if (requestedPrescription === null) {
+      response.status(422).json( { error: "Prescription with the given ID was not found" } )
+    } else {
+      response.status(200).json({ prescription: requestedPrescription });
+    }
   });
 
+
+sequelize.authenticate().then(() => {
+  app.listen(app.get('port'), () => {
+    console.log(`${app.locals.title} is running on Port ${app.get('port')}.`);
+  });
+})
