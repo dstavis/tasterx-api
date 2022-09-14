@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const { sequelize, models } = require('./model/index');
+const { response } = require('express');
 
 app.use(cors()); //can put url into the cors()
 app.use(express.json());
@@ -25,14 +26,19 @@ app.post("/prescriptions", async (request, response) => {
 
 app.get('/prescriptions/:id', async (request, response) => {
     const { id } = request.params
-
     const requestedPrescription = await models.TVPrescription.findOne({ where: { id: id } });
+    console.log(requestedPrescription)
     if (requestedPrescription === null) {
       response.status(422).json( { error: "Not found" } )
     } else {
-      response.status(201).json({data: requestedPrescription});
+      response.status(201).json(requestedPrescription);
     }
   });
+
+app.get('/all', async (request, response) => {
+  const allRX = await models.TVPrescription.findAll();
+  response.status(200).json(allRX);
+});
 
 sequelize.sync().then(() => {
   app.listen(app.get('port'), () => {
