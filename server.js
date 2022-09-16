@@ -46,6 +46,7 @@ app.get('/prescriptions/:id', async (request, response) => {
 
 
 sequelize.authenticate().then(() => {
+  sequelize.sync()
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on Port ${app.get('port')}.`);
   });
