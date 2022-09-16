@@ -25,11 +25,11 @@ app.get('/prescriptions', async (request, response) => {
 });
 
 app.post("/prescriptions", async (request, response) => {
-  const { message, showID } = request.body
-  if(!message || !showID) {
-    response.status(422).json( { error: "Expected { message: <String>, showID: <Number> }" } )
+  const { message, signature, showID } = request.body
+  if(!message || !showID || !signature) {
+    response.status(422).json( { error: "Expected { message: <String>, signature: <String>, showID: <Number> }" } )
   } else {
-    const newPrescription = await models.TVPrescription.create({ message: message, showID: showID })
+    const newPrescription = await models.TVPrescription.create({ message: message, signature: signature, showID: showID })
     response.status(201).json({ prescription: newPrescription })
   }
 })

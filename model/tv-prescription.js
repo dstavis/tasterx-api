@@ -5,6 +5,11 @@ const getTVPrescriptionModel = (sequelize, {DataTypes}) => {
       unique: false,
       allowNull: false,
     },
+    signature: {
+      type: DataTypes.STRING,
+      unique: false,
+      allowNull: false
+    },
     showID: {
       type: DataTypes.STRING,
       unique: false,
