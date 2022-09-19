@@ -21,7 +21,7 @@ This project utilized asynchronous workflow relying on code reviews within PR re
 - Postgres
 - Heroku
 - Sequelize
-- Express.js 
+- Express
 - Javascript
 - Cypress
 - GitHub & Git
