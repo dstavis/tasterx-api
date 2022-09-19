@@ -1,7 +1,8 @@
 # Express server for TasteRX
 
-[Deployed UI](https://tasterx.herokuapp.com/)
-[Deployed API](https://tasterx-api.herokuapp.com/)
+* [Deployed UI](https://tasterx.herokuapp.com/)
+
+* [Deployed API](https://tasterx-api.herokuapp.com/)
 
 This API is meant to be paired with the React UI hosted here:
 https://github.com/dstavis/tasterx
