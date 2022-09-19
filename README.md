@@ -37,5 +37,5 @@ __________________________
 __________________________
 - [Project Spec](https://frontend.turing.edu/projects/module-3/stretch.html)
 - UI [GitHub](https://github.com/dstavis/tasterx)
-- API [GitHub] (https://github.com/dstavis/tasterx-api)
+- API [GitHub](https://github.com/dstavis/tasterx-api)
 - [Project Board](https://trello.com/b/X48waU4e/tasterx)
